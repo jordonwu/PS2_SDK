@@ -1,0 +1,131 @@
+10
+
+dir
+1692
+svn://svn.ps2dev.org/ps2/trunk/ps2sdk-ports/freetype/src
+svn://svn.ps2dev.org/ps2
+
+
+
+2005-02-15T18:03:07.000000Z
+855
+oopo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bf8e388e-adfb-0310-9433-acdc3088d20d
+
+otlayout
+dir
+
+truetype
+dir
+
+type42
+dir
+
+pfr
+dir
+
+autohint
+dir
+
+bdf
+dir
+
+pshinter
+dir
+
+cff
+dir
+
+cid
+dir
+
+tools
+dir
+
+raster
+dir
+
+psaux
+dir
+
+type1
+dir
+
+cache
+dir
+
+psnames
+dir
+
+winfonts
+dir
+
+Jamfile
+file
+
+
+
+
+2012-11-24T13:35:33.216162Z
+6678df571bb5b9e85095982df3f53986
+2005-02-15T18:03:07.000000Z
+855
+oopo
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+433
+
+pcf
+dir
+
+gzip
+dir
+
+smooth
+dir
+
+base
+dir
+
+sfnt
+dir
+
+autofit
+dir
+
+lzw
+dir
+

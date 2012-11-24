@@ -1,0 +1,40 @@
+10
+
+dir
+1692
+svn://svn.ps2dev.org/ps2/trunk/ps2sdk/iop/tcpip/lwip/src/include
+svn://svn.ps2dev.org/ps2
+
+
+
+2004-10-26T09:52:08.000000Z
+643
+neovanglist
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bf8e388e-adfb-0310-9433-acdc3088d20d
+
+ipv4
+dir
+
+ipv6
+dir
+
+netif
+dir
+
+lwip
+dir
+

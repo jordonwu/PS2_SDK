@@ -1,0 +1,16 @@
+#Tue Jun 22 01:38:40 CEST 2004
+ps2vfs.server.port=6969
+ps2vfs.mountTable.mnt3.virtualPath=/Web Radio/
+ps2vfs.mountTable.mnt1.physicalPath=c\:/ps2reality/ps2
+ps2vfs.mountTable.mnt1.virtualPath=/
+ps2vfs.mountTable.entries=4
+ps2vfs.mountTable.mnt4.physicalPath=Video
+ps2vfs.mountTable.mnt3.physicalPath=WebRadio
+ps2vfs.mountTable.mnt4.attributes=re
+ps2vfs.mountTable.mnt4.virtualPath=/My Video/
+ps2vfs.mountTable.mnt2.virtualPath=/My Music/
+ps2vfs.mountTable.mnt3.attributes=re
+ps2vfs.mountTable.mnt2.attributes=re
+ps2vfs.mountTable.mnt2.physicalPath=Music
+ps2vfs.server.loglevel=INFO
+ps2vfs.mountTable.mnt1.attributes=re

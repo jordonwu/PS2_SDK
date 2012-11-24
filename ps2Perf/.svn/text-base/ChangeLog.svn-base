@@ -1,0 +1,11 @@
+02-02-2003 - Bigboss (bigboss@ps2reality.net)
+
+  * Re-wrote makefiles
+  * Re-organised directory structure
+  * Updated for ps2lib 1.9 
+  * Now you will have a libps2Perf.a in ee/lib
+  * You will need sjpcm.irx to load with elf example. 
+
+26-01-2003 - Mavy (mavy@ps2reality.nrt)
+
+  * Initial import

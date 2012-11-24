@@ -1,0 +1,27 @@
+.SUFFIXES:.cpp
+OBJDIR=.\obj
+OUTDIR=.\bin
+INTDIR=.\src
+CC = cl
+VPATH=src:obj
+LINK=link
+CFLAGS= /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "__WXMSW__" /D "__WIN95__" /D "__WIN32__" /D WINVER=0x400 /D "STRICT" /YX /c 
+
+LINK32_FLAGS=/nologo kernel32.lib user32.lib wsock32.lib
+
+OBJECTS=linkproto_stub.obj execee.obj
+SOURCES=linkproto_stub.c execee.c
+
+.cpp{$(SOURCES)}.obj::
+	$(CC) $(CFLAGS) src\$@
+
+execee: common.obj execee.obj linkproto_stub.obj
+	$(LINK) $(LINK32_FLAGS) /out:"execee.exe" execee.obj linkproto_stub.obj common.obj
+execiop: common.obj execiop.obj linkproto_stub.obj
+	$(LINK) $(LINK32_FLAGS) /out:"execiop.exe" execiop.obj linkproto_stub.obj common.obj
+reset: common.obj reset.obj linkproto_stub.obj
+	$(LINK) $(LINK32_FLAGS) /out:"reset.exe" reset.obj linkproto_stub.obj common.obj
+dumpmem: common.obj dumpmem.obj linkproto_stub.obj
+	$(LINK) $(LINK32_FLAGS) /out:"dumpmem.exe" dumpmem.obj linkproto_stub.obj common.obj
+dumpreg: common.obj dumpreg.obj linkproto_stub.obj
+	$(LINK) $(LINK32_FLAGS) /out:"dumpreg.exe" dumpreg.obj linkproto_stub.obj common.obj

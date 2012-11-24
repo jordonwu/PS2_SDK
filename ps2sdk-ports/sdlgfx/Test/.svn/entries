@@ -1,0 +1,77 @@
+10
+
+dir
+1692
+svn://svn.ps2dev.org/ps2/trunk/ps2sdk-ports/sdlgfx/Test
+svn://svn.ps2dev.org/ps2
+
+
+
+2005-11-22T08:28:53.215620Z
+1238
+tmator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bf8e388e-adfb-0310-9433-acdc3088d20d
+
+gfxprimitives
+dir
+
+framerate
+dir
+
+imagefilter
+dir
+
+rotozoom
+dir
+
+fonts
+dir
+
+Makefile
+file
+
+
+
+
+2012-11-24T13:35:34.216162Z
+2e9b3ea73fa601b52d68ba9ee6e6c202
+2005-11-22T08:28:53.215620Z
+1238
+tmator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+297
+

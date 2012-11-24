@@ -1,0 +1,4 @@
+#Tue Jun 22 01:38:23 CEST 2004
+ps2vfs.plugins.imageplugin.maxWidth=1280
+ps2vfs.plugins.imageplugin.maxHeight=1024
+ps2vfs.plugins.imageplugin.quality=0.93

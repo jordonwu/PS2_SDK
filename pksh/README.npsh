@@ -1,0 +1,64 @@
+npsh v2.0 release
+
+INSTALL:
+    For npsh you need libusb and libreadline, I have only tested this on
+    FreeBSD, but it should work wherever libusb and libreadline is present.
+    To only compile npsh do the following
+    $ make npsh
+
+    To compile everything including standalone pukklink tools.
+    $ make all
+
+npsh:
+    A shell like cli for communication with naplink, it has readline
+    capabilities ( command/file completion, command history ) and can log debug
+    messages sent from ps2 to the console or to a file.
+
+    short recap of commands.
+    
+    ?, help             	gives a small help screen
+    cd <dir>            	changes current working dir to <dir>
+    eeexec <file>       	executes <file> on EE ( host: is not needed )
+    iopexec <file>      	executes <file> on IOP --||--
+    pwd                 	print working directory
+    reset               	reset ps2 ( reload pukklink )
+    log <file>          	log all debug output to <file>                 
+    ls,list             	well hum list files.
+
+    Now readline has some nice things like file/command completion, 
+    by default this is mapped to the TAB key.
+
+    Working with the command history is quite easy.
+    arrow-up/down traverses the command history, 
+    ctrl-r <pattern> will search in history for the specified
+    pattern, lets say you did a "execee /some/path/to/nice.elf" way back in
+    time, just press ctrl-r and type in "nice" and it will find
+     "execee /some/path/to/nice.elf"
+
+    Some nice command line editing choices are ctrl-a, ctrl-a beginning/end of
+    line, ctrl-w/ctrl-y delete word/yank it back.
+
+    If you are on a Unix system just read man 3 readline, Cygwin users should
+    have that man page if the man pages was installed :) 
+
+    If not its googleable.
+
+    Some shortcuts for and npsh 
+    meta-p  pwd
+    meta-q  quit
+    meta-r  reset
+    meta-s  status
+    meta-v  verbose on/off
+
+npshrc:
+    place .npshrc in $HOME ( \cygwin\home\Username cygwin users )
+    confin options:
+		verbose = yes/no
+        debug = yes/no
+        histfile = <file> to save your history when quitting
+        suffix = .elf:.ELF
+        home = /default/path/to/start
+        timeout = number of idle seconds to disconnect
+
+License:
+    Included in this zip and in all the source files.

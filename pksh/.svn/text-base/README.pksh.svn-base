@@ -1,0 +1,98 @@
+pksh v2.0 release
+
+INSTALL:
+    For pksh you need libreadline and BSD socket headers, it is known
+    to work and compile under OSX, FreeBSD, Cygwin and Linux.
+    To only compile pksh do the following
+    $ make pksh
+
+    To compile everything including standalone tools and npsh.
+    $ make all
+
+	If you want to build ftp support into pksh use the CFLAGS with -DFTP
+	and comment the other one out, note that this requires the presence of
+	ftplib ( http://www.nbpfaus.net/~pfau/ftplib/ )
+
+pksh:
+    A shell like cli for communication with pukklink/ps2link, it has readline
+    capabilities ( command/file completion, command history ) and can log debug
+    messages sent from ps2 to the console or to a file.
+
+    short recap of commands.
+    
+    ?, help             	gives a small help screen
+    cd <dir>            	changes current working dir to <dir>
+    eeexec <file>       	executes <file> on EE ( host: is not needed )
+    iopexec <file>      	executes <file> on IOP --||--
+    pwd                 	print working directory
+    reset               	reset ps2 ( reload pukklink )
+    log <file>          	log all debug output to <file>                 
+    ls,list             	well hum list files.
+
+    exception [screen]/[console] tells pukklink to dump exception to screen/console
+    dumpmem [file] [offset] [size]
+    dumpreg [file] [type]
+
+    Now readline has some nice things like file/command completion, 
+    by default this is mapped to the TAB key.
+
+    Working with the command history is quite easy.
+    arrow-up/down traverses the command history, 
+    ctrl-r <pattern> will search in history for the specified
+    pattern, lets say you did a "execee /some/path/to/nice.elf" way back in
+    time, just press ctrl-r and type in "nice" and it will find
+     "execee /some/path/to/nice.elf"
+
+    Some nice command line editing choices are ctrl-a, ctrl-a beginning/end of
+    line, ctrl-w/ctrl-y delete word/yank it back.
+
+    If you are on a Unix system just read man 3 readline, Cygwin users should
+    have that man page if the man pages was installed :) 
+
+    If not its googleable.
+
+    Some shortcuts for pksh
+    meta-p  pwd
+    meta-q  quit
+    meta-r  reset
+    meta-s  status
+    meta-v  verbose on/off
+
+ps2netfs:
+	ps2netfs support is integrated in pksh, the "normal" commands like 'ls',
+	'cp', 'mkdir' all have ps2netfs capabilities, when a device is recognized
+	it will send it over ps2netfs, examples below.
+	
+	ls mc0:
+	mkdir mc0:test
+	cp some.elf mc0:test/
+	cp mc0:test/some.elf some.elf
+	rm mc0:test/some.elf
+	rm some.elf (this one will fall through to the shell and remove some.elf)
+
+pkshrc:
+    place .pkshrc in $HOME ( \cygwin\home\Username cygwin users )
+    confin options:
+		verbose = yes/no
+        debug = yes/no
+        ip = x.y.z.w, if empty it will connect to 192.168.0.10
+        log = <file>, if empty it will log to stdout ( default )
+        exception = screen/console
+        # comment
+        histfile = <file> to save your history when quitting
+        suffix = .elf:.ELF
+        home = /default/path/to/start
+
+standalone:
+    eeexec, iopexec, reset, dumpmem, viewmem, gsexec
+
+    These are standalone programs more suitable for batch processing.
+    pksh must be running since the batch utilities connects to it.
+
+    The ideal use of the batch tools is to have a simple macro in your
+    favourite editor to exec your newly compiled code.
+    A Vim example mapping F2 to execee current file with .elf as extension.
+    :map <F2> :!/usr/local/bin/execee %<.elf<cr>
+
+License:
+    Included in this zip and in all the source files.

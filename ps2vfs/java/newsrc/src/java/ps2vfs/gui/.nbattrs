@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE attributes PUBLIC "-//NetBeans//DTD DefaultAttributes 1.0//EN" "http://www.netbeans.org/dtds/attributes-1_0.dtd">
+<attributes version="1.0">
+    <fileobject name="LibraryTopFrame.java">
+        <attr name="class_dependency_javax.swing.JFrame" stringvalue="LibraryTopFrame"/>
+    </fileobject>
+    <fileobject name="AddMountDialog.java">
+        <attr name="class_dependency_javax.swing.JDialog" stringvalue="AddMountDialog"/>
+    </fileobject>
+    <fileobject name="MountPointsFrame.java">
+        <attr name="class_dependency_java.awt.event.ActionListener" stringvalue="MountPointsFrame"/>
+        <attr name="class_dependency_javax.swing.JFrame" stringvalue="MountPointsFrame"/>
+        <attr name="class_dependency_javax.swing.event.ChangeListener" stringvalue="MountPointsFrame"/>
+    </fileobject>
+    <fileobject name="OpenFilesDialog.java">
+        <attr name="class_dependency_javax.swing.JDialog" stringvalue="OpenFilesDialog"/>
+    </fileobject>
+</attributes>

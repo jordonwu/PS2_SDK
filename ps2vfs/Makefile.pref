@@ -1,0 +1,41 @@
+####################################################
+# Change the settings, so they match yours         #
+####################################################
+
+#
+# Location of PS2LIB. Requires 1.9 or later. 
+#
+
+# PS2LIB = /usr/ps2dev/ps2lib
+
+#
+# Root directory of the PS2IP source tree
+#
+
+PS2IP = $(PS2DEV)/ps2ip
+
+#
+# Location of LWIP source package.
+#
+
+LWIP = $(PS2DEV)/lwip060rc1
+
+#
+# Compilers and tools
+#
+
+EE_PREFIX = ee-
+EE_CC = $(EE_PREFIX)gcc
+EE_AS = $(EE_PREFIX)as
+EE_LD = $(EE_PREFIX)ld
+EE_AR = $(EE_PREFIX)ar
+EE_OBJCOPY = $(EE_PREFIX)objcopy
+EE_STRIP = $(EE_PREFIX)strip
+
+IOP_PREFIX = iop-
+IOP_CC = $(IOP_PREFIX)gcc
+IOP_AS = $(IOP_PREFIX)as
+IOP_LD = $(IOP_PREFIX)ld
+IOP_AR = $(IOP_PREFIX)ar
+IOP_OBJCOPY = $(IOP_PREFIX)objcopy
+IOP_STRIP = $(IOP_PREFIX)strip

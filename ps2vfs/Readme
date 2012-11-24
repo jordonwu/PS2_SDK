@@ -1,0 +1,409 @@
+#  _____     ___ ____
+#   ____|   |    ____|      PSX2 OpenSource Project
+#  |     ___|   |____       (C)2003, Antonio José Ramos Márquez(aka Bigboss) (bigboss@ps2reality.net)
+#			    (C)2003, Ramon Nou Castell(aka Mavy) (mavy@ps2reality.net)
+#			    (C)2003, Hermes(aka Hermes) (hermes@ps2reality.net)
+------------------------------------------------------------------------------------------------------
+  PS2VFS 
+------------------------------------------------------------------------------------------------------
+
+The PS2VFS is an io driver that slots into the PS2 IO subsystem plus a java server at pc side
+it provides filesystem access from your ps2 to your remote pc.
+
+PS2 SIDE
+--------
+
+You will need ps2ip, ps2eth and ps2ips if you want send directly command without ps2vfs driver.
+
+You must change your configuration network(ip,gw,netmask) in ee/ps2vfs/main.c and iop/ps2vfs/ps2vfs.c
+It was tested with last changes in ps2lib 1.9 yesterday.
+
+Copy iop and ee directory in your ps2ip tree
+
+PS2VFS iop module sends/receives commands to java server at pc side with two functions:
+
+  - ps2VfsSendCommand
+  - ps2VfsReceiveCommand
+
+  These commands has next sintax:
+
+	typedef struct
+	{
+		u32 code;
+		u8 cmd[5];
+	}ps2Vfs_command;
+
+  each function sends/receives these basic commands and some of them sends/receives more data. For extra data it uses send/receive lwip basic functions. 
+
+  It has implemented:
+
+      
+  - OPEN  SendCommand          
+  code---->number or character of file name
+  cmd----->opena string
+  - OPEN  ReceiveCommand
+  code---->java file id in pc side or -1 when there is an error
+  cmd----->OPENA string
+  - CLOSE SendCommand
+  code---->java file id in pc side 
+  cmd----->close string
+  - CLOSE ReceiveCommand
+  code---->0 or -1 when there is an error 
+  cmd----->CLOSE string
+  - READ SendCommand
+  code---->java file id in pc side 
+  cmd----->reada string
+  - READ ReceiveCommand
+  code---->number of bytes readed or -1 when there is an error 
+  cmd----->READA string
+  - SEEK SendCommand
+  code---->java file id in pc side 
+  cmd----->seeka string
+  - SEEK ReceiveCommand
+  code---->current file pointer position or -1 if there is an error 
+  cmd----->SEEKA string
+  - HELLO SendCommand
+  code---->0 
+  cmd----->hello string
+  - HELLO ReceiveCommand
+  code---->0 or -1 if there is an error 
+  cmd----->HELLO string
+  - EXIT SendCommand
+  code---->0 
+  cmd----->exita string
+  - EXIT ReceiveCommand
+  code---->0  
+  cmd----->EXITA string
+  
+ Commands are received by java server and it executes them and sends response commands to ps2 side
+ 
+ There are two additional commands implemented in java server but it hasn´t been implemented in ps2vfs iop module. Now these command reponses with current directory file name and with a list of files and directories in current directory. If you are executing java jar file in c:\commons-vfs\target, it will be your current default directory for PWD and DIR commands.
+
+
+
+  - PWD SendCommand
+  code---->not defined 
+  cmd----->pwdaa string
+  - PWD ReceiveCommand
+  code---->number of characters of current directory   
+  cmd----->PWDAA string
+  - DIR SendCommand
+  code---->not defined 
+  cmd----->diraa string
+  - DIR ReceiveCommand
+  code---->number of entries in current directory   
+  cmd----->DIRAA string
+  
+
+JAVA SIDE
+---------
+
+If you want to use ps2vfs java server, you must compile it fisrt. 
+
+
+1. Download java sdk 1.4.x from java.sun.com
+2. Install java sdk and define JAVA_HOME enviroment variable. Example if you install jdk in c:\jdk1.4.x JAVA_HOME=c:\jdk1.4.x
+3. To check if it was installed correctly execute 
+
+	java -version
+
+   you get something like this:
+
+	java version "1.4.0"
+	Java(TM) 2 Runtime Environment, Standard Edition (build 1.4.0-b92)
+	Java HotSpot(TM) Client VM (build 1.4.0-b92, mixed mode)
+4. Download jakarta ant binaries from http://ant.apache.org/ . It is like a make utility in c but very very powerfull
+5. Define ANT_HOME enviroment variable to your ant directory
+6. Add ANT_HOME/bin to your path
+7. To check if ant was installed correctly execute
+
+	ant
+
+   you get something like this;
+
+	Buildfile: build.xml does not exist!
+	Build failed
+
+8. Download jakarta commons vfs sources from http://cvs.apache.org/builds/jakarta-commons/nightly/commons-vfs/
+9. Decompress common-vfs sources, you will see a build.xml file inside. This file is like a Makefile. If you run ant now it try to compile it. 
+   It will try connect for download some jar (java libraries) if you don't want use this feature you can download commons-vfs binaries. You will need:
+
+	ant-1.5.jar
+	ant-optional-1.5.jar
+	commons-httpclient-2.0-alpha2.jar
+	commons-logging-1.0.jar
+	commmons-net-1.0.0
+	jcifs-0.7.0b5.jar
+	jsch-0.1.0.jar
+	junit-3.9.1.jar
+	webdavlib-20030224.jar
+	xml-api-2.0.0.jar
+10. When you compile with ant commons-vfs it create a directory structure like this:
+
+	commons-vfs---
+		     |
+		     |__ target__
+		                 |
+			         |___classes
+				 |
+				 |___lib(place here all that jars)
+				 |
+				 |___test-classes
+				 |
+				 |___test-reports
+				 |
+				 |__commons-vfs-1.0-dev.jar (it will be our final binary file)
+				 |
+				 |__META-INF
+
+11. Copy ps2vfs java directory tree in commons-vfs src directory 
+12. Overwrite build.xml with ps2vfs build.xml
+13. Run ant
+	you must view something like this
+
+	Buildfile: build.xml
+
+	init:
+
+	get-deps:
+	
+	compile:
+
+	jar:
+	[jar] Building jar: C:\commons-vfs\target\ps2vfs.jar
+
+	BUILD SUCCESSFUL
+	Total time: 2 seconds
+
+14. Now you will have a new jar in target directory 
+15. To run it go to target directory an execute java -jar ps2vfs.jar and you will see something like this
+
+Playstation 2 Virtual File System Example
+#  _____     ___ ____
+#   ____|   |    ____|      PSX2 OpenSource Project
+#  |     ___|   |____       (C)2003,Bigboss, Mavy & Hermes
+#             (bigboss@ps2reality.net,mavy@ps2reality.net,hermes@ps2reality.net)
+#  -----------------------------------------------------------------------------
+Server listening in port 6969
+
+16. Now server is ready to listen 
+
+I know that all this step are not easy if you don't kwow anything about java, but it's you have problem i'll try help you
+
+
+
+ TODO list:
+ ---------
+
+- add more commands 
+- integrate ps2dns support in ps2vfs iop module
+- improve support for jakarta vfs api. Now it is only used for PWD and DIR commands. There are more providers like smb, tftp, ftp, http, etc.
+- add gui to java server
+- add a clean system log to java server
+- make an universal loader based in ps2vfs
+- integrate ps2vfs in Ps2Reality Mediaplayer
+
+
+Please send your comments, bugs, etc to:
+
+bigboss@ps2reality.net or post them in ps2dev.org or in www.ps2reality.net
+
+
+Special thanks
+--------------
+
+Mavy and Hermes :P
+
+Yogurth, Gripinc and all PS2Reality crew, moderators, betatesters-1 xD, hey Crystals :)
+
+Oobles to let us publish our code in his cvs and for his great site
+
+Sjeep, pukko, mrbrown and all people working in ps2lib, ps2ip, ps2eth,etc
+
+
+Very Special thanks
+-------------------
+
+jaja para otra vez escoged otro día para celebrar mi cumpleaños. Gracias por el regalo y por la sorpresa :P
+
+Kanija loca(eres una lianta K), obifunc-7&heba, kandy&ejem ejem, penelope&baron rojo, baby, atorrante&pepa, ulises&mimosin con el permiso de olgagtp,cyborgcarras,luisma(coco?), fas pesao me debes una...
+
+Very Very Special thanks
+------------------------
+
+Mi supersobrino Alejandro ya mismo cumple un añito :)
+
+No Thanks
+---------
+
+xD It's my birthday perhaps another day. You know who are them 
+
+
+enjoy and peace guys
+
+
+CHANGELOG
+----------------------------------------------------------------------------------------
+
+31th March 2003  - Version 0.1
+
+- First Release and my 28th birthday
+
+COPYRIGHT FOR PS2VFS
+----------------------------------------------------------------------------
+
+ Copyright (c) 2003 Antonio José Ramos Márquez (bigboss@ps2reality.net)
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+
+ 1. Redistributions of source code must retain the above copyright notice,
+    this list of conditions and the following disclaimer.
+ 2. The author grants you a license to use ps2ip for academic, research
+    and non-commercial purposes only.
+ 3. The author imposes no restriction on any code developed using the
+    software.  However, the author retains a non-exclusive royalty-free
+    license to any modification to the distribution made by the licensee.
+ 4. Any Licensee wishing to make commercial use of the Softare must
+    contact the author to execute the appropriate license for such 
+    commercial use.  Commercial use includes
+     - Integration of all or part of the source code into a product for sale
+       or commercial license by or on behalf Licensee to third parties, or
+     - distribution of the binary code or source code to third parites that
+       need it to utilize a commercial product sold or licensed by or on
+       behalf of Licensee.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR
+ BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ THE POSSIBILITY OF SUCH DAMAGE.
+
+
+COPYRIGHT FOR JAKARTA Commons Virtual File System
+ ====================================================================
+
+ The Apache Software License, Version 1.1
+ 
+ Copyright (c) 2002, 2003 The Apache Software Foundation.  All rights
+ reserved.
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+ 
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in
+   the documentation and/or other materials provided with the
+   distribution.
+ 
+3. The end-user documentation included with the redistribution, if
+   any, must include the following acknowlegement:
+   "This product includes software developed by the
+   Apache Software Foundation (http://www.apache.org/)."
+   Alternately, this acknowlegement may appear in the software itself,
+   if and wherever such third-party acknowlegements normally appear.
+ 
+4. The names "The Jakarta Project", "Commons", and "Apache Software
+   Foundation" must not be used to endorse or promote products derived
+   from this software without prior written permission. For written
+   permission, please contact apache@apache.org.
+5. Products derived from this software may not be called "Apache"
+   nor may "Apache" appear in their names without prior written
+   permission of the Apache Group.
+ 
+THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED.  IN NO EVENT SHALL THE APACHE SOFTWARE FOUNDATION OR
+ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
+====================================================================
+
+This software consists of voluntary contributions made by many
+individuals on behalf of the Apache Software Foundation.  For more
+information on the Apache Software Foundation, please see
+<http://www.apache.org/>.
+ 
+
+COPYRIGHT FOR PS2IP
+----------------------------------------------------------------------------
+
+ Copyright (c) 2002 David Ryan (Oobles@hotmail.com)
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+
+ 1. Redistributions of source code must retain the above copyright notice,
+    this list of conditions and the following disclaimer.
+ 2. The author grants you a license to use ps2ip for academic, research
+    and non-commercial purposes only.
+ 3. The author imposes no restriction on any code developed using the
+    software.  However, the author retains a non-exclusive royalty-free
+    license to any modification to the distribution made by the licensee.
+ 4. Any Licensee wishing to make commercial use of the Softare must
+    contact the author to execute the appropriate license for such 
+    commercial use.  Commercial use includes
+     - Integration of all or part of the source code into a product for sale
+       or commercial license by or on behalf Licensee to third parties, or
+     - distribution of the binary code or source code to third parites that
+       need it to utilize a commercial product sold or licensed by or on
+       behalf of Licensee.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR
+ BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ THE POSSIBILITY OF SUCH DAMAGE.
+
+COPYRIGHT FROM LWIP CODE
+----------------------------------------------------------------------------
+
+ Copyright (c) 2001, 2002 Swedish Institute of Computer Science.
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+
+ 1. Redistributions of source code must retain the above copyright notice,
+    this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+ 3. The name of the author may not be used to endorse or promote products
+    derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR
+ BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ THE POSSIBILITY OF SUCH DAMAGE.

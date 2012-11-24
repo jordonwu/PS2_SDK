@@ -1,0 +1,22 @@
+verbose = no
+debug = no
+
+# ps2 ip address
+ip = 192.168.0.10
+
+# local UDP log ip, default is to bind to all ip's
+#bind = 192.168.0.11
+
+# where do we want our log output, screen or console
+exception = console
+
+# somewhere to place our history file
+histfile = /home/<user>/.pksh_hist
+
+# search path.
+path = /minidemos:/phat/code:/warez/code
+
+# suffix tab completion pattern match
+# leave it empty if you dont want to rule out any
+# files on tab completion. 
+suffix = .elf:.irx:.out:.bin:.ELF

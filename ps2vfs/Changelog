@@ -1,0 +1,20 @@
+Changelog
+---------------
+
+23th June 2004:
+
+Stig Petter Olsrød commit the new ps2vfs implementation with cool features:
+- Plugins support 
+- Web radio and playlist support
+- Support for images greater than 1600x1600
+- Virtual mapping
+- Added a full logging system
+- Fully compatible with PS2Reality Mediaplayer 1.50
+
+10th January 2004:
+Antonio Jose Ramos Marquez commit Java New IO implementation binary compatible with mediaplayer 1.50 and 1.6x
+
+31th March 2003
+
+Antonio Jose Ramos Marquez commit firt release
+

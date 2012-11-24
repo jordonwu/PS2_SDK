@@ -1,0 +1,37 @@
+
+The Independent JPEG Group's JPEG ps2 port
+==========================================
+
+
+Here's a quick port for the ijg.org's jpeg library, check the
+original README included here for more information about the
+ijg's jpeg library.
+
+Currently the library is build against ps2lib (www.ps2dev.org), 
+and the example links with libito (www.mouthshut.net) as well.
+
+
+Changelog:
+---------
+v0.3:
+ * More API changes, added jpgCreate, jpgCreateRAW, jpgCompressImage, 
+   jpgCompressImageRAW and jpgScreenshot. 
+ * Modified libjpg.h so it doesn't needs jpeglib.h anymore.
+ * working_state struct at jchuff.c needed a workaroud for the alignment
+   bug in gcc.
+
+v0.2:
+ * API rewrite, removed jpgGetInfo, replaced by jpgData struct,
+   also added jpgOpen.
+ * Enabled JDCT_IFAST as default IDCT decoder.
+ * Builds with ps2sdk now.
+ * Example now uses gsKit.
+
+v0.1:
+ * First release.
+
+
+Thanks to Pixel and auMatt for testing :).
+
+Ported by linuzappz <linuzappz@pcsx2.net>
+

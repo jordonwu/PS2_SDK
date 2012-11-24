@@ -1,0 +1,29 @@
+# include dir
+EE_INCS += -I. -I$(PS2LIB)/common/include -I$(PS2LIB)/ee/include -I$(NEWLIB)/include -I$(PS2IP)/include
+
+# C compiler flags
+EE_CFLAGS += -D_EE -fshort-double -O2 -c -Wall $(EE_INCS)
+
+# linker flags
+EE_LDFLAGS += -nostartfiles -T$(PS2LIB)/ee/startup/linkfile -L$(PS2LIB)/ee/lib -L$(NEWLIB)/lib -L$(PS2IP)/ee/lib
+
+# asssembler flags
+EE_ASFLAGS += -mcpu=r5900 -EL
+
+# link with following libraries (libs need to be defined multiple times in order for linking to work!!)
+EE_LIBS += -lkernel -lc -lkernel -lc -lps2ip
+
+# Externally defined variables: EE_BIN, EE_OBJS, EE_LIB
+
+%.o : %.c
+	$(EE_CC) $(EE_CFLAGS) $< -o $@
+
+%.o : %.s
+	$(EE_AS) $(EE_ASFLAGS) $< -o $@
+
+$(EE_BIN) : $(EE_OBJS)
+	$(EE_CC) $(EE_LDFLAGS) -o $(EE_BIN) $(EE_OBJS) $(PS2LIB)/ee/startup/crt0.o $(EE_LIBS)
+
+$(EE_LIB) : $(EE_OBJS)
+	$(EE_AR) cru $(EE_LIB) $(EE_OBJS)
+

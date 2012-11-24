@@ -1,0 +1,22 @@
+ps2img - Create, inspect or extract Playstation 2 ROM image files
+Copyright (c) 2005 Damien Ciabrini (dciabrin), Olivier Parra (yo6)
+
+    -------------------------------------------------------------   
+
+This program enables the inspection of PS2 ROM image files, the
+so-called *.IMG files. An IMG file is a simple archive containing a
+set of IOP IRX modules that are intended to be updated version of 
+some of the drivers located in your PS2 BIOS. When the IOP is reset,
+the IRXs present in this image will be used instead of the original
+ones present in the BIOS.
+
+With ps2img you can create your own IMG files, or modifying existing
+IMG files (ie deleting or adding IRXs from/to the archive).
+
+
+Just type "make" to compile this utility. Currently, it works only
+on UNIX platform, but should be ported easily to Win32.
+
+ps2img works like "tar" command. For any help, type "ps2img --help"
+
+ps2img is licensed under the GNU General Public Licence v2

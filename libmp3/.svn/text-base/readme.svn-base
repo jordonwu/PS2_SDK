@@ -1,0 +1,70 @@
+What is it
+~~~~
+###A wrapper around the libmad library that manages mp3 operations
+
+UPDATE
+
+Initial id3v2 support in example madplayer app.
+
+What does it do
+~~~~
+###You execute the PlayMP3 function with a filename.
+###
+###The callback will be executed during the decoding of the mp3.  Be sure
+###to return from this function quickly else the audio may stutter or freeze.
+
+UPDATE
+
+Specify mp3 using command line argument and madplay.elf
+
+Compiling
+~~~~
+I setup the following env vars:
+export LIBMAD=$LIBMP3/libmad
+export LIBID3TAG=$LIBMP3/libid3tag
+export ZLIB=.... wherever
+
+I had to rename zlib.a to libzlib.a.
+
+It doesn't work!
+~~~~
+I use a PAL PS2 running ps2link, and I upload via ps2client from a
+unix environment.  Let me know if it works in a different environment.
+
+If you suspect these conditions are not at fault, I'd suggest trying
+these things:
+
+ - check the filename prefix, eg: host:test.mp3 
+ - try a different mp3
+ - private message me on #ps2dev or forums.ps2dev.org with all of the details.
+ - remember, all of the details
+
+Limitations
+~~~~
+Lots of wasted cpu
+
+I commented out CDVD support.
+
+Who am I
+~~~
+rinco
+
+When did this happen
+~~~~
+Started project on 3rd of Jan 2005.
+Completed milestone "Looks like a Library" on 2nd of Feb 2005.
+Completed milestone "Latest Madplayer + ID3V2" on 6th of Feb 2005.
+Completed milestone "Buffered Output" on the 9th of Feb 2005
+
+Thanks 
+~~~~
+The Mad team - your code ports so easily, you rock!
+Sg2 - for initial port and inspiration
+Primetime - for doing something
+Weltall/Dlanor - for publishing their improvements to the port
+Sjeep - sound driver legend
+#ps2dev - Help
+
+Licenses
+~~~~
+The license for this driver is GPL.  

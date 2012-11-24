@@ -1,0 +1,66 @@
+
+PS2DEBUG
+----------------------------------------------------------------------------
+
+This was written because I was having problems with Naplink and printf
+causing the IOP to crash.  I had suspected that this was mainly due to 
+the printf function not being thread safe.  I am still not entirely sure
+if this solves any problems; however it does seem to make printf a little
+more reliable when using multiple threads.
+
+It has been modified slightly to now help in debugging ps2ip.  The ps2klsi
+driver after initialising now redirects ps2debug's output to a udp_log
+function.  This means that during startup ps2debug uses the standard printf
+over naplink and then once the Ethernet adapter is initliased all logging
+is performed via UDP.
+
+
+You may or may not find this useful for anything you do. :)
+
+Oobles.
+
+
+ERRORS/BUGS
+----------------------------------------------------------------------------
+
+There is currently a problem using variable arguments in the lock_printf
+function.  As a temporary fix I have resolved this by simply printing the
+format string.  There is a call to vsprintf, however when enabled the output
+is an empty string.  
+
+
+CHANGELOG
+----------------------------------------------------------------------------
+
+10th December 2002 - Version 0.9
+
+- First Release.
+
+
+COPYRIGHT AND PERMISSION NOTICE
+----------------------------------------------------------------------------
+
+Copyright 2002 (C) David Ryan (Oobles@hotmail.com)
+All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, and/or sell copies of the
+Software, and to permit persons to whom the Software is furnished to do so,
+provided that the above copyright notice(s) and this permission notice appear
+in all copies of the Software and that both the above copyright notice(s)
+and this permission notice appear in supporting documentation.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD PARTY RIGHTS.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE
+LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR
+ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
+OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+Except as contained in this notice, the name of a copyright holder shall not
+be used in advertising or otherwise to promote the sale, use or other dealings
+in this Software without prior written authorization of the copyright holder.
